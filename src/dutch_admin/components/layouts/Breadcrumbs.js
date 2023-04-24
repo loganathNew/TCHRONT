@@ -161,7 +161,7 @@ class Breadcrumbs extends React.Component {
                     <React.Fragment>
                         <div className={isDashboard ? "col-sm-9" : "col-sm-9"}>
                             {/* <div className="col-sm-10"> */}
-                            <div className='row border border-success' >
+                            <div className={isDashboard ? 'row' : 'row border border-success'} >
                                 {isInwardList || isDashboard || isOutwardList ? (
 
                                     <SelectBoxComponent
@@ -203,80 +203,92 @@ class Breadcrumbs extends React.Component {
                                     />
                                 ) : ""}
 
-                                <div className="col-sm-2">
-                                    <div className="form-group">
-                                        <h5 className="card-title fs-14">Start Date <span className="text-danger">*</span></h5>
-                                        <CustomDatePicker
-                                            onChangeDateTime={this.filterStartDateChange}
-                                            dateTime={start_date}
-                                            onChangeText={() => { }}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-sm-2">
-                                    <div className="form-group">
-                                        <h5 className="card-title fs-14">End Date <span className="text-danger">*</span></h5>
-                                        <CustomDatePicker
-                                            onChangeDateTime={this.filterEndDateChange}
-                                            dateTime={end_date}
-                                            onChangeText={() => { }}
-                                        />
-                                    </div>
-                                </div>
+                                {!isDashboard ? (
+                                    <React.Fragment>
 
-                                <div className={isDashboard ? "col-sm-2 justify-content-sm-end d-flex" : "col-sm-1 justify-content-sm-end d-flex"}
-                                >
-                                    <div className="btn-head">
-                                        <button type="button" onClick={this.filterClick} className="btn btn-primary btn-rounded btn-xs align-items-center">
-                                            Filter
-                                        </button>
-                                    </div>
-                                </div>
-                                {isDashboard || isInterList ?
-                                    // <div className="col-sm-3">
-                                    //     <div className="form-group">
-                                    //         <h5 className="card-title fs-16">Total Inward Net Weight</h5>
-                                    //         <div className="border border-success p-2 green">
-                                    //             {this.state.totalInwardNet}
-                                    //         </div>
-                                    //         <h5 className="card-title fs-16">Total Outward Net Weight</h5>
-                                    //         <div className="border border-success p-2 green">
-                                    //             {this.state.totalOutwardNet}
-                                    //         </div>
-                                    //     </div>
-                                    // </div>
-                                    ""
-                                    :
-                                    <div className="col-sm-3">
-                                        <div className="form-group">
-                                            <h5 className="card-title fs-16">Total Net Weight</h5>
-                                            <div className="border border-success p-2 green">
-                                                {isInwardList ? this.state.totalInwardNet : this.state.totalOutwardNet}
+                                        <div className="col-sm-2">
+                                            <div className="form-group">
+                                                <h5 className="card-title fs-14">Start Date <span className="text-danger">*</span></h5>
+                                                <CustomDatePicker
+                                                    onChangeDateTime={this.filterStartDateChange}
+                                                    dateTime={start_date}
+                                                    onChangeText={() => { }}
+                                                />
                                             </div>
                                         </div>
-                                    </div>
-                                }
+                                        <div className="col-sm-2">
+                                            <div className="form-group">
+                                                <h5 className="card-title fs-14">End Date <span className="text-danger">*</span></h5>
+                                                <CustomDatePicker
+                                                    onChangeDateTime={this.filterEndDateChange}
+                                                    dateTime={end_date}
+                                                    onChangeText={() => { }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </React.Fragment>
+                                ) : ""}
+
+
+                                < div className={isDashboard ? "col-sm-2 justify-content-sm-end d-flex" : "col-sm-1 justify-content-sm-end d-flex"}
+                                >
+                                {!isDashboard ? (
+
+                                <div className="btn-head">
+                                    <button type="button" onClick={this.filterClick} className="btn btn-primary btn-rounded btn-xs align-items-center">
+                                        Filter
+                                    </button>
+                                </div>
+                                ) : ""}
 
                             </div>
-                        </div>
-                    </React.Fragment>
-                ) : ""
-                }
-                {!isDashboard ?
+                            {isDashboard || isInterList ?
+                                // <div className="col-sm-3">
+                                //     <div className="form-group">
+                                //         <h5 className="card-title fs-16">Total Inward Net Weight</h5>
+                                //         <div className="border border-success p-2 green">
+                                //             {this.state.totalInwardNet}
+                                //         </div>
+                                //         <h5 className="card-title fs-16">Total Outward Net Weight</h5>
+                                //         <div className="border border-success p-2 green">
+                                //             {this.state.totalOutwardNet}
+                                //         </div>
+                                //     </div>
+                                // </div>
+                                ""
+                                :
+                                <div className="col-sm-3">
+                                    <div className="form-group">
+                                        <h5 className="card-title fs-16">Total Net Weight</h5>
+                                        <div className="border border-success p-2 green">
+                                            {isInwardList ? this.state.totalInwardNet : this.state.totalOutwardNet}
+                                        </div>
+                                    </div>
+                                </div>
+                            }
 
-                    <div className={action == "List" ? "col-sm justify-content-sm-end d-flex" : "col-sm justify-content-sm-end d-flex"}>
-                        <div className="btn-head">
-                            <Link to={this.state.redirectTo}>
-                                <button type="button" className="btn btn-warning btn-rounded btn-xs align-items-center">
-                                    <span className="fs-16">{this.state.redirectLabel.replace("_", " ")}</span>
-                                    {this.state.redirectLabel == "Add" ? <i className="fa fa-plus scale5 ml-3"></i> : ""}
-                                </button>
-                            </Link>
                         </div>
                     </div>
-                    : ""}
+                    </React.Fragment>
+        ) : ""
+    }
+                {
+    !isDashboard ?
 
-            </div>);
+    <div className={action == "List" ? "col-sm justify-content-sm-end d-flex" : "col-sm justify-content-sm-end d-flex"}>
+        <div className="btn-head">
+            <Link to={this.state.redirectTo}>
+                <button type="button" className="btn btn-warning btn-rounded btn-xs align-items-center">
+                    <span className="fs-16">{this.state.redirectLabel.replace("_", " ")}</span>
+                    {this.state.redirectLabel == "Add" ? <i className="fa fa-plus scale5 ml-3"></i> : ""}
+                </button>
+            </Link>
+        </div>
+    </div>
+    : ""
+}
+
+            </div >);
     }
 }
 

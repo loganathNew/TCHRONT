@@ -6,6 +6,9 @@ import React, { useState, useEffect } from 'react';
 const ItemsCollection = (props) => {
   let items = props.items;
   let itemHeads = props.itemHeads;
+  let filter_location_id = (props.filter_location_id=="")?"":props.filter_location_id.id;
+  // console.log(items);
+  // console.log(filter_location_id);
   return (
     <div className="row">
       <div className="col-12">
@@ -27,30 +30,35 @@ const ItemsCollection = (props) => {
                 </thead>
                 <tbody className="thead-light">
                   {Object.keys(items).map((element, i) => {
+                    // console.log(items[element][1]['location_id']);
                     return (
-                      <tr key={i} style={{ color: "black" }}>
-                        <td style={{ verticalAlign: "top" }}><strong>{i + 1}</strong></td>
-                        <td style={{ verticalAlign: "top" }}>{items[element]['location_name']}</td>
-                        {Object.keys(items[element]).map((value, i1) => {
-                          if (value != 'location_name') {
-                            return (
-                              <td key={value}>
-                                {
-                                  <span className="badge light badge-success" style={{ fontSize: "16px", color: "green" }}>{
-                                    items[element][value].balance}</span>
-                                }
-                                <br></br>
-                                <small style={{ fontSize: "6px" }}>
-                                  Inwards: <span style={{ fontSize: "12px" }}>{items[element][value].total_inward}</span><br></br>
-                                  Outwards: <span style={{ fontSize: "12px" }}>{items[element][value].total_outward}</span><br></br>
-                                  Bags: <span style={{ fontSize: "12px" }}>{items[element][value].total_inbag}</span>
-                                </small>
-                              </td>
-                            )
-                          }
-                        })}
-                        {/* <td><span className="badge light badge-success">Successful</span></td> */}
-                      </tr>
+                      (items[element][1]['location_id'] == filter_location_id || filter_location_id=="") ?
+
+                        <tr key={i} style={{ color: "black" }}>
+                          <td style={{ verticalAlign: "top" }}><strong>{i + 1}</strong></td>
+                          <td style={{ verticalAlign: "top" }}>{items[element]['location_name']}</td>
+                          {Object.keys(items[element]).map((value, i1) => {
+                            if (value != 'location_name') {
+                              return (
+                                <td key={value}>
+                                  {
+                                    <span className="badge light badge-success" style={{ fontSize: "16px", color: "green" }}>{
+                                      items[element][value].balance}</span>
+                                  }
+                                  <br></br>
+                                  <small style={{ fontSize: "6px" }}>
+                                    {/* Inwards: <span style={{ fontSize: "12px" }}>{items[element][value].total_inward}</span><br></br>
+                                  Outwards: <span style={{ fontSize: "12px" }}>{items[element][value].total_outward}</span><br></br> */}
+                                    Bags: <span style={{ fontSize: "12px" }}>{items[element][value].total_inbag}</span>
+                                  </small>
+                                </td>
+                              )
+                            }
+                          })}
+                          {/* <td><span className="badge light badge-success">Successful</span></td> */}
+                        </tr>
+                        : ""
+
                     )
                   })}
                 </tbody>
@@ -91,6 +99,7 @@ const ItemsCollection = (props) => {
 function Home() {
 
   const [itemsArray, setHandleChangeItem] = useState([]);
+  const [location_id, setHandleChangeLocationId] = useState([]);
   const [itemHeads, setHandleChangeItemHead] = useState([]);
   const [filter_location_id, setFilterLocationIdItem] = useState("");
   const [filter_item_id, setFilterItemIdItem] = useState("");
@@ -116,8 +125,7 @@ function Home() {
   }
 
   function filterClick() {
-    setHandleChangeItem(() => []);
-    getDatas();
+    // setHandleChangeLocationId(() => filter_end_date));
   }
 
   function getDatas() {
@@ -157,18 +165,25 @@ function Home() {
   return (
     <div className="content-body">
       <div className="container-fluid">
-        {/* <Breadcrumbs menu="Dashboard" action="list" filterLocationChange={(newValue) => { filterLocationChange(newValue) }}
-          filterItemChange={(newValue) => { filterItemChange(newValue) }}
-          filterStartDateChange={(newValue) => { filterStartDateChange(newValue) }}
-          filterEndDateChange={(newValue) => { filterEndDateChange(newValue) }}
-          filterClick={() => { filterClick() }} /> */}
-        <div className="col-sm ml-4">
+        <Breadcrumbs menu="Dashboard" action="list" filterLocationChange={(newValue) => { filterLocationChange(newValue) }}
+          filterClick={() => { filterClick() }} />
+        {/* <div className="col-sm ml-4">
           <div className="mr-auto d-none d-lg-block">
             <h2 className="text-black font-w600 mb-0">Dashboard</h2>
             <p className="mb-0">Welcome to Dutch Plantin Admin!</p>
           </div>
+        </div> */}
+        {/* <div className={isDashboard ? "col-sm-9" : "col-sm-9"}>
+        <div className='row border border-success' >
+          <SelectBoxComponent
+              element={{ id: 'location_id', name: "location", value: location_id }}
+              optionList={locations}
+              colClass={isDashboard ? "col-sm-3" : "col-sm-2"}
+              isBgSet={false}
+              onChange={(newValue) => { this.filterLocationChange(newValue) }} />
         </div>
-        <ItemsCollection items={itemsArray} itemHeads={itemHeads} />
+        </div> */}
+        <ItemsCollection items={itemsArray} itemHeads={itemHeads} filter_location_id={filter_location_id}/>
 
         {/* <div className="col-xl-12 col-xxl-12 col-lg-12 col-md-12">
           <div className="card">
