@@ -278,7 +278,7 @@ export const ItemComponent = React.forwardRef((props, ref) => {
         let validate = props.validate;
         let key = parseInt(props.keyIndex);
         return (
-            <SelectBoxComponent element={{ id: 'supplier_id' + item_id, name: 'supplier_id', label: 'Supplier ID', value: supplier_id, validate, required, check }}
+            <SelectBoxComponent element={{ id: 'supplier_id' + item_id, name: 'supplier_id', label: 'Supplier ID / Land & Factory', value: supplier_id, validate, required, check }}
                 onChange={(newValue) => { handleChangeSupplier(newValue, key) }}
                 colClass="col-xl-2 col-lg-2"
                 optionList={suppliers} isBgSet={false}
