@@ -8,6 +8,7 @@ const PERMISSIONS = {
     CAN_VIEW_USER: "view_user",
     CAN_VIEW_INWARD: "view_inward",
     CAN_VIEW_OUTWARD: "view_outward",
+    CAN_VIEW_BALANCE: "view_balance",
     CAN_VIEW_INTER: "view_inter",
     CAN_VIEW_LOG: "view_log",
 };

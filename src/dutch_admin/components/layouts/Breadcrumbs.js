@@ -17,22 +17,29 @@ class Breadcrumbs extends React.Component {
             isInwardList: (props.menu == "Inwards" && props.action == "List") ? true : false,
             isInterList: (props.menu == "Inters" && props.action == "List") ? true : false,
             isOutwardList: (props.menu == "Outwards" && props.action == "List") ? true : false,
+            isBalanceList: (props.menu == "Balances" && props.action == "List") ? true : false,
 
             redirectTo: this.formingRedirectTo(props.master, props.menu, props.action),
             redirectLabel: this.formingRedirectLabel(props.master, props.menu, props.action),
 
             location_id: "",
+            supplier_id: "",
+            ec: "",
             from_id: "",
             to_id: "",
             item_id: "",
             start_date: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
             end_date: new Date(),
-            items: [], locations: []
+            items: [], locations: [],
+            suppliers: [], ecs: []
+
         };
         this.filterLocationChange = this.filterLocationChange.bind(this);
         this.filterFromChange = this.filterFromChange.bind(this);
         this.filterToChange = this.filterToChange.bind(this);
         this.filterItemChange = this.filterItemChange.bind(this);
+        this.filterSupplierChange = this.filterSupplierChange.bind(this);
+        this.filterECChange = this.filterECChange.bind(this);
         this.filterStartDateChange = this.filterStartDateChange.bind(this);
         this.filterEndDateChange = this.filterEndDateChange.bind(this);
         this.filterClick = this.filterClick.bind(this);
@@ -77,7 +84,9 @@ class Breadcrumbs extends React.Component {
             const response = await homeService.getSelectDatas(null);
             let items = await response.data.item;
             let locations = await response.data.location;
-            this.setState({ items: items, locations: locations })
+            let suppliers = await response.data.supplier;
+            let ecs = await response.data.ecs;
+            this.setState({ items: items, locations: locations, suppliers: suppliers, ecs: ecs })
         })();
     }
 
@@ -102,9 +111,14 @@ class Breadcrumbs extends React.Component {
         this.props.filterItemChange(value);
     }
 
-    filterItemChange(value) {
-        this.setState({ item_id: value.id });
-        this.props.filterItemChange(value);
+    filterSupplierChange(value) {
+        this.setState({ supplier_id: value.id });
+        this.props.filterSupplierChange(value);
+    }
+
+    filterECChange(value) {
+        this.setState({ ec: value.id });
+        this.props.filterECChange(value);
     }
 
     filterStartDateChange = (value) => {
@@ -134,7 +148,9 @@ class Breadcrumbs extends React.Component {
     }
 
     render() {
-        const { isDashboard, isInterList, isInwardList, isOutwardList, location_id, from_id, to_id, item_id, start_date, end_date, action, items, locations } = this.state;
+        const { isDashboard, isInterList, isInwardList, isOutwardList, isBalanceList, location_id, supplier_id, ec,
+            from_id, to_id, item_id, start_date, end_date, action,
+            items, locations, suppliers, ecs } = this.state;
         return (
             <div className="row">
                 {isDashboard ? (
@@ -142,9 +158,10 @@ class Breadcrumbs extends React.Component {
                         <div className="mr-auto d-none d-lg-block">
                             <h2 className="text-black font-w600 mb-0">Dashboard</h2>
                             <p className="mb-0">Welcome to Dutch Plantin Admin!</p>
+
                         </div>
                     </div>) :
-                    isInwardList || isInterList || isOutwardList ? (
+                    isInwardList || isInterList || isOutwardList || isBalanceList ? (
                         <div className="col-sm justify-content-sm-start mt-0 mb-0 d-flex">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item card-title fs-14">{this.state.menu.replace("_", " ")} - {this.state.action}</li>
@@ -157,12 +174,12 @@ class Breadcrumbs extends React.Component {
                             </ol>
                         </div>
                 }
-                {isInwardList || isInterList || isDashboard || isOutwardList ? (
+                {isInwardList || isInterList || isDashboard || isOutwardList || isBalanceList ? (
                     <React.Fragment>
                         <div className={isDashboard ? "col-sm-9" : "col-sm-9"}>
                             {/* <div className="col-sm-10"> */}
                             <div className={isDashboard ? 'row' : 'row border border-success'} >
-                                {isInwardList || isDashboard || isOutwardList ? (
+                                {isInwardList || isDashboard || isOutwardList || isBalanceList ? (
 
                                     <SelectBoxComponent
                                         element={{ id: 'location_id', name: "location", value: location_id }}
@@ -193,7 +210,7 @@ class Breadcrumbs extends React.Component {
                                 ) :
                                     ""}
 
-                                {isInwardList || isInterList || isOutwardList ? (
+                                {isInwardList || isInterList || isOutwardList || isBalanceList ? (
                                     <SelectBoxComponent
                                         element={{ id: 'item_id', name: "item", value: item_id }}
                                         optionList={items}
@@ -203,7 +220,27 @@ class Breadcrumbs extends React.Component {
                                     />
                                 ) : ""}
 
-                                {!isDashboard ? (
+
+                                {isInwardList ? (
+                                    <>
+                                        <SelectBoxComponent
+                                            element={{ id: 'supplier_id', name: "Supplier", value: supplier_id }}
+                                            optionList={suppliers}
+                                            colClass={isDashboard ? "col-sm-3" : "col-sm-2"}
+                                            isBgSet={false}
+                                            onChange={(newValue) => { this.filterSupplierChange(newValue) }} />
+
+                                        <SelectBoxComponent
+                                            element={{ id: 'ec', name: "EC", value: ec }}
+                                            optionList={ecs}
+                                            colClass={isDashboard ? "col-sm-3" : "col-sm-2"}
+                                            isBgSet={false}
+                                            onChange={(newValue) => { this.filterECChange(newValue) }} />
+                                    </>
+                                ) :
+                                    ""}
+
+                                {!isDashboard && !isBalanceList ? (
                                     <React.Fragment>
 
                                         <div className="col-sm-2">
@@ -231,62 +268,73 @@ class Breadcrumbs extends React.Component {
 
 
                                 < div className={isDashboard ? "col-sm-2 justify-content-sm-end d-flex" : "col-sm-1 justify-content-sm-end d-flex"}
+                                style={isInwardList ? { marginLeft: '20px' } : {}}
                                 >
-                                {!isDashboard ? (
+                                    {!isDashboard ? (
 
-                                <div className="btn-head">
-                                    <button type="button" onClick={this.filterClick} className="btn btn-primary btn-rounded btn-xs align-items-center">
-                                        Filter
-                                    </button>
+                                        <div className="btn-head">
+                                            <button type="button" onClick={this.filterClick} className="btn btn-primary btn-rounded btn-xs align-items-center">
+                                                Filter
+                                            </button>
+                                        </div>
+                                    ) : ""}
+
                                 </div>
-                                ) : ""}
-
-                            </div>
-                            {isDashboard || isInterList ?
-                                // <div className="col-sm-3">
-                                //     <div className="form-group">
-                                //         <h5 className="card-title fs-16">Total Inward Net Weight</h5>
-                                //         <div className="border border-success p-2 green">
-                                //             {this.state.totalInwardNet}
-                                //         </div>
-                                //         <h5 className="card-title fs-16">Total Outward Net Weight</h5>
-                                //         <div className="border border-success p-2 green">
-                                //             {this.state.totalOutwardNet}
-                                //         </div>
-                                //     </div>
-                                // </div>
-                                ""
-                                :
-                                <div className="col-sm-3">
-                                    <div className="form-group">
-                                        <h5 className="card-title fs-16">Total Net Weight</h5>
-                                        <div className="border border-success p-2 green">
-                                            {isInwardList ? this.state.totalInwardNet : this.state.totalOutwardNet}
+                                {(isDashboard || isInterList || isBalanceList) ?
+                                    // <div className="col-sm-3">
+                                    //     <div className="form-group">
+                                    //         <h5 className="card-title fs-16">Total Inward Net Weight</h5>
+                                    //         <div className="border border-success p-2 green">
+                                    //             {this.state.totalInwardNet}
+                                    //         </div>
+                                    //         <h5 className="card-title fs-16">Total Outward Net Weight</h5>
+                                    //         <div className="border border-success p-2 green">
+                                    //             {this.state.totalOutwardNet}
+                                    //         </div>
+                                    //     </div>
+                                    // </div>
+                                    ""
+                                    :
+                                    <div className={isInwardList ? "col-sm justify-content-sm-end d-flex" : "col-sm-3"}>
+                                        <div className="form-group">
+                                            <h5 className="card-title fs-16">Total Net Weight</h5>
+                                            <div className="border border-success p-2 green">
+                                                {isInwardList ? this.state.totalInwardNet : this.state.totalOutwardNet}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
+                                }
 
+                                {isDashboard ?
+
+                                    <>
+                                        <p><span className="dot" style={{ backgroundColor: "green" }}></span> Total Balance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span className="dot" style={{ backgroundColor: "red" }}></span> Total Bags</p>
+                                    </>
+
+                                    : ""
+                                }
+
+                            </div>
                         </div>
-                    </div>
                     </React.Fragment>
-        ) : ""
-    }
+                ) : ""
+                }
                 {
-    !isDashboard ?
+                    !isDashboard ?
 
-    <div className={action == "List" ? "col-sm justify-content-sm-end d-flex" : "col-sm justify-content-sm-end d-flex"}>
-        <div className="btn-head">
-            <Link to={this.state.redirectTo}>
-                <button type="button" className="btn btn-warning btn-rounded btn-xs align-items-center">
-                    <span className="fs-16">{this.state.redirectLabel.replace("_", " ")}</span>
-                    {this.state.redirectLabel == "Add" ? <i className="fa fa-plus scale5 ml-3"></i> : ""}
-                </button>
-            </Link>
-        </div>
-    </div>
-    : ""
-}
+                        <div className={action == "List" ? "col-sm justify-content-sm-end d-flex" : "col-sm justify-content-sm-end d-flex"}>
+                            <div className="btn-head">
+                                <Link to={this.state.redirectTo}>
+                                    <button type="button" className="btn btn-warning btn-rounded btn-xs align-items-center">
+                                        <span className="fs-16">{this.state.redirectLabel.replace("_", " ")}</span>
+                                        {this.state.redirectLabel == "Add" ? <i className="fa fa-plus scale5 ml-3"></i> : ""}
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                        : ""
+                }
 
             </div >);
     }

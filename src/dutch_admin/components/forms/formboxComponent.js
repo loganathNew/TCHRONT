@@ -183,7 +183,7 @@ export const ItemComponent = React.forwardRef((props, ref) => {
     function deleteItemComponent(e) {
         let splt = e.target.id.split('-');
         let keyIndex = splt[0];
-        let item_id = splt[1] != "" ? splt[1] : null ;
+        let item_id = splt[1] != "" ? splt[1] : null;
         deletedIds.push(parseInt(item_id));
         if (keyIndex > -1) { itemsArray.splice(keyIndex, 1); }
         setHandleChangeItem(() => [...itemsArray]);
@@ -305,7 +305,14 @@ export const ItemComponent = React.forwardRef((props, ref) => {
                 <fieldset key={key} className="fieldSet">
                     <legend runat="server" visible="true" className="fieldsetLegend">Item {key + 1}:</legend>
                     <div className='row'>
+                        <CustomSupplierSelect suppliers={suppliers} item_id={item_id} supplier_id={supplier_id} validate={validate} keyIndex={key}></CustomSupplierSelect>
 
+                        <NumberBoxComponent element={{ name: "dcno", value: dcno, validate, required, check }}
+                            items={items}
+                            onChange={(newValue) => { handleChangeDcno(newValue, key) }} colClass="col-xl-2 col-lg-2" isBgSet={false}
+                            // validationCallback={(res) => { validationErrorhandleChange(res, key, "hasDCNOError") }}
+                            validationCallback={() => { }}
+                        />
                         <CustomItemSelect items={items} item_id={item_id} item_name={item_name} validate={validate} keyIndex={key}></CustomItemSelect>
 
                         <NumberBoxComponent element={{ name: item_name, value: item_value, validate, required, check }}
@@ -316,14 +323,8 @@ export const ItemComponent = React.forwardRef((props, ref) => {
                             validationCallback={() => { }}
                         />
 
-                        <NumberBoxComponent element={{ name: "dcno", value: dcno, validate, required, check }}
-                            items={items}
-                            onChange={(newValue) => { handleChangeDcno(newValue, key) }} colClass="col-xl-2 col-lg-2" isBgSet={false}
-                            // validationCallback={(res) => { validationErrorhandleChange(res, key, "hasDCNOError") }}
-                            validationCallback={() => { }}
-                        />
 
-                        <CustomSupplierSelect suppliers={suppliers} item_id={item_id} supplier_id={supplier_id} validate={validate} keyIndex={key}></CustomSupplierSelect>
+
 
                         <NumberBoxComponent element={{ name: "bags", value: bags, validate, required, check }}
                             onChange={(newValue) => { handleChangeBags(newValue, key) }} colClass="col-xl-1 col-lg-1"
@@ -337,7 +338,7 @@ export const ItemComponent = React.forwardRef((props, ref) => {
                                     < button id={key} onClick={(e) => addItemComponent(e)} type="button" className="btn btn-secondary">Add Item</button >
                                     {/* < button onClick={addItemComponent} type="button" className="btn btn-secondary">Add Item</button > */}
                                     {key != 0 ?
-                                        < button id={key +"-"+ id} onClick={(e) => deleteItemComponent(e)} style={{ marginLeft: "10px" }} type="button" className="btn btn-danger">Delete</button >
+                                        < button id={key + "-" + id} onClick={(e) => deleteItemComponent(e)} style={{ marginLeft: "10px" }} type="button" className="btn btn-danger">Delete</button >
                                         : ""}
                                 </div>
                             </div>
@@ -389,7 +390,7 @@ export const OutwardItemComponent = React.forwardRef((props, ref) => {
     function deleteItemComponent(e) {
         let splt = e.target.id.split('-');
         let keyIndex = splt[0];
-        let item_id = splt[1] != "" ? splt[1] : null ;
+        let item_id = splt[1] != "" ? splt[1] : null;
         //console.log(item_id);
         //console.log(deletedIds);
         deletedIds.push(parseInt(item_id));
@@ -600,7 +601,7 @@ export const OutwardItemComponent = React.forwardRef((props, ref) => {
                                     < button id={key} onClick={(e) => addItemComponent(e)} type="button" className="btn btn-secondary">Add Item</button >
                                     {/* < button onClick={addItemComponent} type="button" className="btn btn-secondary">Add Item</button > */}
                                     {key != 0 ?
-                                        < button id={key +"-"+ id} onClick={(e) => deleteItemComponent(e)} style={{ marginLeft: "10px" }} type="button" className="btn btn-danger">Delete</button >
+                                        < button id={key + "-" + id} onClick={(e) => deleteItemComponent(e)} style={{ marginLeft: "10px" }} type="button" className="btn btn-danger">Delete</button >
                                         : ""}
                                 </div>
                             </div>
@@ -649,7 +650,7 @@ export const InterComponent = React.forwardRef((props, ref) => {
     function deleteInterComponent(e) {
         let splt = e.target.id.split('-');
         let keyIndex = splt[0];
-        let item_id = splt[1] != "" ? splt[1] : null ;
+        let item_id = splt[1] != "" ? splt[1] : null;
         //console.log(item_id);
         //console.log(deletedIds);
         deletedIds.push(parseInt(item_id));
@@ -816,7 +817,7 @@ export const InterComponent = React.forwardRef((props, ref) => {
                                     < button id={key} onClick={(e) => addInterComponent(e)} type="button" className="btn btn-secondary">Add Item</button >
                                     {/* < button onClick={addInterComponent} type="button" className="btn btn-secondary">Add Item</button > */}
                                     {key != 0 ?
-                                        < button id={key +"-"+ id} onClick={(e) => deleteInterComponent(e)} style={{ marginLeft: "10px" }} type="button" className="btn btn-danger">Delete</button >
+                                        < button id={key + "-" + id} onClick={(e) => deleteInterComponent(e)} style={{ marginLeft: "10px" }} type="button" className="btn btn-danger">Delete</button >
                                         : ""}
                                 </div>
                             </div>

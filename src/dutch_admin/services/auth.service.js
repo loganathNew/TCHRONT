@@ -5,6 +5,10 @@ class AuthDataService {
         return http.post("/auth/check", data);
     }
 
+    checking_authenticate(data){
+        return http.post("/auth/checking" ,data);
+    }
+
     logOut(data) {
         return http.post("/auth/logout", data);
     }

@@ -15,6 +15,8 @@ class Content extends React.Component {
         this.filterToChange = this.filterToChange.bind(this);
         this.filterLocationChange = this.filterLocationChange.bind(this);
         this.filterItemChange = this.filterItemChange.bind(this);
+        this.filterSupplierChange = this.filterSupplierChange.bind(this);
+        this.filterECChange = this.filterECChange.bind(this);
         this.filterStartDateChange = this.filterStartDateChange.bind(this);
         this.filterEndDateChange = this.filterEndDateChange.bind(this);
         this.filterClick = this.filterClick.bind(this);
@@ -54,6 +56,13 @@ class Content extends React.Component {
         this.props.filterEndDateChange(value);
     }
 
+    filterSupplierChange(value) {
+        this.props.filterSupplierChange(value);
+    }
+
+    filterECChange(value) {
+        this.props.filterECChange(value);
+    }
 
     filterClick = () => {
         this.props.filterClick();
@@ -62,7 +71,7 @@ class Content extends React.Component {
     render() {
         return (
             <div className="content-body" >
-                <div className="container-fluid">
+                <div className="container-fluid" style={this.props.menu == "Balances" ? { minHeight: '0px' } : {}}>
                     {/* {this.props.menu == "Inwards" ? "" : <Breadcrumbs menu={this.props.menu} action={this.props.action} />} */}
                     <Breadcrumbs menu={this.props.menu} master={this.props.master} action={this.props.action} totalInwardNet={this.props.totalInwardNet}
                         totalOutwardNet={this.props.totalOutwardNet}
@@ -70,6 +79,8 @@ class Content extends React.Component {
                         filterFromChange={(newValue) => { this.filterFromChange(newValue) }}
                         filterToChange={(newValue) => { this.filterToChange(newValue) }}
                         filterItemChange={(newValue) => { this.filterItemChange(newValue) }}
+                        filterSupplierChange={(newValue) => { this.filterSupplierChange(newValue) }}
+                        filterECChange={(newValue) => { this.filterECChange(newValue) }}
                         filterStartDateChange={(newValue) => { this.filterStartDateChange(newValue) }}
                         filterEndDateChange={(newValue) => { this.filterEndDateChange(newValue) }}
                         filterClick={this.filterClick}

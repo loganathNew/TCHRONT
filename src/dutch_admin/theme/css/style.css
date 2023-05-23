@@ -46550,3 +46550,10 @@ input[type=number] {
   /* background-size: cover; */
   position: fixed;
 }
+
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}

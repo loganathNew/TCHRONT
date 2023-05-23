@@ -12,6 +12,8 @@ import Masters from "./dutch_admin/pages/Masters";
 import MastersList from "./dutch_admin/pages/Masters/list";
 import Inwards from "./dutch_admin/pages/Inwards/index";
 import InwardsList from "./dutch_admin/pages/Inwards/list";
+import Balances from "./dutch_admin/pages/Balances/index";
+import BalancesList from "./dutch_admin/pages/Balances/list";
 import Inters from "./dutch_admin/pages/Inters/index";
 import IntersList from "./dutch_admin/pages/Inters/list";
 import Outwards from "./dutch_admin/pages/Outwards/index";
@@ -139,6 +141,14 @@ const Mainwrapper = () => {
           <Route path="outwards/:id/view" element={<Authentication><Outwards /></Authentication>} />
         </Route>;
 
+
+        <Route element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_BALANCE]} />}>
+          <Route path="balances" element={<Authentication><Balances /></Authentication>} />
+          <Route path="/balances/list" element={<Authentication><BalancesList /></Authentication>} />
+          <Route path="balances/list/:data" element={<Authentication><BalancesList /></Authentication>} />
+          <Route path="balances/:id" element={<Authentication><Balances /></Authentication>} />
+          <Route path="balances/:id/view" element={<Authentication><Balances /></Authentication>} />
+        </Route>;
 
         <Route element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_LOCATION]} />}>
           <Route path="location" element={<Authentication><Masters master="location" /></Authentication>} />

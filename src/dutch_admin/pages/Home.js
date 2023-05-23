@@ -42,14 +42,14 @@ const ItemsCollection = (props) => {
                               return (
                                 <td key={value}>
                                   {
-                                    <span className="badge light badge-success" style={{ fontSize: "16px", color: "green" }}>{
+                                    <span className="" style={{ fontSize: "18px", color: "green" }}>{
                                       items[element][value].balance}</span>
                                   }
                                   <br></br>
                                   <small style={{ fontSize: "6px" }}>
                                     {/* Inwards: <span style={{ fontSize: "12px" }}>{items[element][value].total_inward}</span><br></br>
                                   Outwards: <span style={{ fontSize: "12px" }}>{items[element][value].total_outward}</span><br></br> */}
-                                    Bags: <span style={{ fontSize: "12px" }}>{items[element][value].total_inbag}</span>
+                                    <span style={{ fontSize: "14px", color: "red" }}>{items[element][value].total_inbag}</span>
                                   </small>
                                 </td>
                               )

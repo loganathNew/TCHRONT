@@ -67,6 +67,12 @@ const adminMenu = [
     },
     {
         id: 11,
+        icon: 'flaticon-381-box-2',
+        label: 'Balances',
+        to: 'balances/list',
+    },
+    {
+        id: 12,
         icon: 'flaticon-381-box-1',
         label: 'Log',
         to: 'logs/list',

@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
                 token: user.token, user_name: user.user_name, user_role: user.user_role, user_id: user.user_id, permissions: [
                     'view_user', 'view_dashboard', 'view_item', 'view_location',
                     'view_qcname', 'view_storagelocation',
-                    'view_supplier', 'view_inward', 'view_outward', 'view_inter', 'view_log']
+                    'view_supplier', 'view_inward', 'view_outward', 'view_inter', 'view_log', 'view_balance']
             };
             // userInfo = {
             //     token: "dsdsdsffdf", user_name: "adminUser", user_role: 'admin', user_id: 1, permissions: ['view_dashboard', 'view_item', 'view_location',
