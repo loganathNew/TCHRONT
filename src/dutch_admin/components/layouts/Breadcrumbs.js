@@ -61,7 +61,7 @@ class Breadcrumbs extends React.Component {
 
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if (this.state.isInwardList) {
+        if (this.state.isInwardList || this.state.isInterList) {
             this.setState({ totalInwardNet: nextProps.totalInwardNet.toFixed(2) });
         }
         if (this.state.isOutwardList) {
@@ -268,7 +268,7 @@ class Breadcrumbs extends React.Component {
 
 
                                 < div className={isDashboard ? "col-sm-2 justify-content-sm-end d-flex" : "col-sm-1 justify-content-sm-end d-flex"}
-                                style={isInwardList ? { marginLeft: '20px' } : {}}
+                                style={(isInwardList || isInterList) ? { marginLeft: '20px' } : {}}
                                 >
                                     {!isDashboard ? (
 
@@ -280,7 +280,7 @@ class Breadcrumbs extends React.Component {
                                     ) : ""}
 
                                 </div>
-                                {(isDashboard || isInterList || isBalanceList) ?
+                                {(isDashboard || isBalanceList) ?
                                     // <div className="col-sm-3">
                                     //     <div className="form-group">
                                     //         <h5 className="card-title fs-16">Total Inward Net Weight</h5>
@@ -295,11 +295,11 @@ class Breadcrumbs extends React.Component {
                                     // </div>
                                     ""
                                     :
-                                    <div className={isInwardList ? "col-sm justify-content-sm-end d-flex" : "col-sm-3"}>
+                                    <div className={(isInwardList || isInterList) ? "col-sm justify-content-sm-end d-flex" : "col-sm-3"}>
                                         <div className="form-group">
                                             <h5 className="card-title fs-16">Total Net Weight</h5>
                                             <div className="border border-success p-2 green">
-                                                {isInwardList ? this.state.totalInwardNet : this.state.totalOutwardNet}
+                                                {(isInwardList || isInterList) ? this.state.totalInwardNet : this.state.totalOutwardNet}
                                             </div>
                                         </div>
                                     </div>

@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 const ItemsCollection = (props) => {
   let items = props.items;
   let itemHeads = props.itemHeads;
-  let filter_location_id = (props.filter_location_id=="")?"":props.filter_location_id.id;
+  let filter_location_id = (props.filter_location_id == "") ? "" : props.filter_location_id.id;
   // console.log(items);
   // console.log(filter_location_id);
   return (
@@ -19,20 +19,33 @@ const ItemsCollection = (props) => {
                 <thead className="thead-dark">
                   <tr>
                     {/* style={{ width: "50px" }} */}
-                    <th ><strong>#</strong></th>
-                    <th><strong>Godowns</strong></th>
-                    {Object.keys(itemHeads).map((value, i) => {
+                    <th style={{ backgroundColor: "#D3D3D3" }}><strong style={{ color: "black" }}>#</strong></th>
+                    <th style={{ backgroundColor: "#D3D3D3" }}><strong style={{ color: "black" }}>Godowns</strong></th>
+                    {Object.keys(itemHeads['itemNames']).map((value, i) => {
                       return (
-                        <th key={itemHeads[value]}><strong>{itemHeads[value]}</strong></th>
+                        <th key={itemHeads['itemNames'][value]} style={{ backgroundColor: "#D3D3D3" }}>
+                          <strong style={{ color: "black" }}>{itemHeads['itemNames'][value]}</strong><br></br>
+                          <p style={{ border: "2px solid white", borderRadius: "5px", color: "white", padding: "5px", marginTop: "1px", marginBottom: "4px" }}>
+                            <strong style={{ fontSize: "14px", color: "green" }}>{itemHeads['itemTotals'][value]}</strong>
+                          </p>
+                          <p style={{ border: "2px solid white", borderRadius: "5px", color: "white", padding: "5px", marginBottom: "0px" }}>
+                            <strong style={{ fontSize: "12px", color: "red" }}>{itemHeads['itemBags'][value]}</strong>
+                          </p>
+                        </th>
                       )
                     })}
+                    {/* {Object.keys(itemHeads['itemTotals']).map((value, i) => {
+                      return (
+                        <th key={itemHeads['itemTotals'][value]}><strong className="red">{itemHeads['itemTotals'][value]}</strong></th>
+                      )
+                    })} */}
                   </tr>
                 </thead>
                 <tbody className="thead-light">
                   {Object.keys(items).map((element, i) => {
                     // console.log(items[element][1]['location_id']);
                     return (
-                      (items[element][1]['location_id'] == filter_location_id || filter_location_id=="") ?
+                      (items[element][1]['location_id'] == filter_location_id || filter_location_id == "") ?
 
                         <tr key={i} style={{ color: "black" }}>
                           <td style={{ verticalAlign: "top" }}><strong>{i + 1}</strong></td>
@@ -100,7 +113,7 @@ function Home() {
 
   const [itemsArray, setHandleChangeItem] = useState([]);
   const [location_id, setHandleChangeLocationId] = useState([]);
-  const [itemHeads, setHandleChangeItemHead] = useState([]);
+  const [itemHeads, setHandleChangeItemHead] = useState({ "itemNames": [], "itemTotals": [], "itemBags": [] });
   const [filter_location_id, setFilterLocationIdItem] = useState("");
   const [filter_item_id, setFilterItemIdItem] = useState("");
   const [filter_start_date, setFilterStartDateItem] = useState("");
@@ -134,21 +147,27 @@ function Home() {
       HomeService.getAll(params)
         .then(response => {
           let itemsArray = response.data.data;
-          //console.log(itemsArray)
+          console.log(itemsArray)
           if (response.data.type == "success") {
             setHandleChangeItem(() => itemsArray);
-            let itemHeads = [];
+            let itemHeads = { "itemNames": [], "itemTotals": [], "itemBags": [] };
             Object.keys(itemsArray).map((element, i) => {
               Object.keys(itemsArray[element]).map((value, i1) => {
-                if (!itemHeads.includes(itemsArray[element][value].item_name)) {
+                if (!itemHeads['itemNames'].includes(itemsArray[element][value].item_name)) {
                   if (value != 'location_name') {
-                    itemHeads.push(itemsArray[element][value].item_name);
+                    // let tmp_item_name = itemsArray[element][value].item_name+"-"+itemsArray[element][value].total_item_value;
+                    let tmp_item_name = itemsArray[element][value].item_name;
+                    let tmp_total_values = itemsArray[element][value].total_item_value;
+                    let tmp_total_bags = itemsArray[element][value].tmp_total_bags;
+                    itemHeads['itemNames'].push(tmp_item_name);
+                    itemHeads['itemTotals'].push(tmp_total_values);
+                    itemHeads['itemBags'].push(tmp_total_bags);
                     // itemsArray[itemsArray[element][value].location_name]
                   }
                 }
               })
             })
-            //console.log(itemHeads);
+            console.log(itemHeads);
             setHandleChangeItemHead(() => itemHeads);
             return;
           } else {
@@ -183,7 +202,7 @@ function Home() {
               onChange={(newValue) => { this.filterLocationChange(newValue) }} />
         </div>
         </div> */}
-        <ItemsCollection items={itemsArray} itemHeads={itemHeads} filter_location_id={filter_location_id}/>
+        <ItemsCollection items={itemsArray} itemHeads={itemHeads} filter_location_id={filter_location_id} />
 
         {/* <div className="col-xl-12 col-xxl-12 col-lg-12 col-md-12">
           <div className="card">

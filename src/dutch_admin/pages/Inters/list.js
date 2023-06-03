@@ -47,7 +47,7 @@ class List extends React.Component {
             filter_item_id: "",
             filter_start_date: "",
             filter_end_date: "",
-            totalInterNet: 0.00,
+            totalInwardNet: 0.00,
             rows: [],
             locations: [], storage_locations: [], qcNames: [], suppliers: []
         };
@@ -207,7 +207,7 @@ class List extends React.Component {
                     this.submitDisable(false)
                 } else {
                     let allData = data.data.products;
-                    let totalInterNet = data.data.totalInterNet;
+                    let totalInwardNet = data.data.totalInwardNet;
                     let rowArray = [];
                     allData.forEach((element, i) => {
                         let interElement = { ...element.inter };
@@ -226,7 +226,7 @@ class List extends React.Component {
                         //console.log(productsElement);
                         rowArray.push({ ...productsElement, ...interElement })
                     });
-                    this.setState({ rows: rowArray, totalInterNet: totalInterNet })
+                    this.setState({ rows: rowArray, totalInwardNet: totalInwardNet })
                     this.submitDisable(false)
 
                 }
@@ -314,7 +314,7 @@ class List extends React.Component {
                 {this.state.loader ? <Preloader /> : ""}
                 <Content menu="Inters" action="List" status={this.state.status}
                     onStatusClose={this.onStatusClose}
-                    totalInterNet={this.state.totalInterNet}
+                    totalInwardNet={this.state.totalInwardNet}
                     filterClick={this.filterClick}
                     filterFromChange={(newValue) => { this.filterFromChange(newValue) }}
                     filterToChange={(newValue) => { this.filterToChange(newValue) }}

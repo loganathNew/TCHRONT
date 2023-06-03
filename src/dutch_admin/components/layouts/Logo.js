@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import React from 'react';
 import { connect } from "react-redux";
 import hamActivationAction from '../../store/actions';
+import { NavLink } from 'react-router-dom';
 
 class Toplogo extends React.Component {
 
@@ -14,7 +15,8 @@ class Toplogo extends React.Component {
         const isHamActive = this.props.hamActive
         return (
             <div className="nav-header">
-                <a href="index.html" className="brand-logo">
+                <NavLink to="/" className="brand-logo">
+                    {/* <a href="" className="brand-logo"> */}
                     {
                         isHamActive ?
                             <img className="logo-abbr" src={Mainlogo} alt="" />
@@ -25,8 +27,8 @@ class Toplogo extends React.Component {
                         //     <img className="brand-title" src={Mainlogo} alt="" />
                         // </React.Fragment>
                     }
-                </a>
-
+                    {/* </a> */}
+                </NavLink>
                 <div className="nav-control">
                     <div className={classnames("hamburger", this.props.hamActive ? 'is-active' : '')} onClick={
                         () => this.props.hamActivationAction(!this.props.hamActive)
