@@ -33,12 +33,14 @@ const Logout = () => {
                     setLoader(false);
                     setDisabled(false);
                     setStatus({ show: true, type: 'error', msg: res.data.msg })
+                    window.location.reload();
                 }
             })
             .catch(e => {
                 setLoader(false);
                 setDisabled(false);
                 setStatus({ show: true, type: 'error', msg: "Something went wrong" })
+                window.location.reload();
             });
     };
 

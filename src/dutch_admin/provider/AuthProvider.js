@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     useEffect(() => {
-        console.log(auth);
+        //console.log(auth);
         let userInfo = {
             user_name: auth.user_name, user_id: auth.user_id, user_role: auth.user_role, token: auth.token, permissions: auth.permissions,
         }

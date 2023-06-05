@@ -37,8 +37,8 @@ import authService from "../services/auth.service";
             permissions: permissions,
         }
     }
-        console.log("state");
-        console.log(state);
+        // console.log("state");
+        // console.log(state);
 
 // })();
 

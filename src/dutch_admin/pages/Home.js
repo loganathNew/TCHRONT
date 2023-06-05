@@ -147,7 +147,7 @@ function Home() {
       HomeService.getAll(params)
         .then(response => {
           let itemsArray = response.data.data;
-          console.log(itemsArray)
+          // console.log(itemsArray)
           if (response.data.type == "success") {
             setHandleChangeItem(() => itemsArray);
             let itemHeads = { "itemNames": [], "itemTotals": [], "itemBags": [] };
@@ -167,7 +167,7 @@ function Home() {
                 }
               })
             })
-            console.log(itemHeads);
+            // console.log(itemHeads);
             setHandleChangeItemHead(() => itemHeads);
             return;
           } else {
